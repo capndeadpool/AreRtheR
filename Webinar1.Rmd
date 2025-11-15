@@ -1,0 +1,116 @@
+---
+title: "Webinar-1"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+### Bus Ridership Analysis
+
+------------------------------------------------------------------------
+
+#### Create a vector s1 whose elements correspond to the number of passengers who can possibly get on board the bus at a particular stop
+
+```{r}
+s1 = c(0, 1, 2)
+```
+
+#### Create a vector p1 whose elements correspond to the respective chances of the number of passengers identified in the previous question getting on board the bus at a particular stop.
+
+```{r}
+p1 =c(0.5,0.4,0.1)
+```
+
+#### Create a 2x10-matrix P such that the jth column of this matrix should have a passenger on the bus’s continuing-on and getting-off chances for the jth stop for j = 1, . . . , 10.
+
+# 2,3,8,,9,10
+
+```{r}
+P = matrix(c(0.8, 0.2, 0.2, 0.8, 0.8, 0.8, 0.8, 0.2,0.2,0.0, 0.2,0.8,0.8,
+0.2, 0.2, 0.2, 0.2, 0.8, 0.8, 1.0), nrow=2, ncol=10, byrow =T)
+rownames(P) = c('Continuing', 'Departing')
+#colnames(P) = c('S1', 'S2', 'S3', S4, 'S5', 'S6', 'S7', 'S8', 'S9', 'S10')
+colnames(P) = paste0('Stop', c(1:10))
+print(P)
+```
+
+#### Create a vector s2 whose elements correspond to the encoded versions of a passenger staying
+
+on the bus and getting off of the bus at a particular stop, respectively.
+
+```{r}
+s2 <- c(0, 1)
+names(s2) = c('Staying', 'Departing')
+print(s2)
+```
+
+#### Simulate the number of passengers at the last stop
+
+```{r}
+n = 30 # zero passengers in the bus at stop-1
+for (j in c(1:9)){
+  if (n > 0){
+    n = n - sum(sample(s2, size = n, replace = T, prob = P[, j]))
+  }
+  n = n + sample(s1, size = 1, prob = p1)
+  cat(sprintf('No. of passenger after stop-%d = %d\n', j, n))
+}
+```
+
+------------------------------------------------------------------------
+
+### Court Analysis
+
+#### Load the court dataset
+
+```{r}
+file = ?
+courtData = ?
+head(courtData, 5)
+```
+
+#### Define the sampling space and the picking likelihood vectors
+
+```{r}
+s = ? 
+P = ?
+```
+
+#### User-defined function to simulate one trial of the random experiment which is to simulate the court's decision for one unseen petition
+
+```{r}
+simTrial = function(){
+  # Vector to store the judges decisions
+  decision = vector('integer', 5)
+  
+  # Run over each judge
+  for (j in ?){
+    # Simulate Judge-j decision and store it
+    decision[j] = sample(?, size = 1, prob = ?)
+  }
+  
+  return(?)
+}
+```
+
+#### Replicate the trials of the random experiment a large number of times; in other words, we are simulating the court's decision on a large number of random petitions
+
+```{r}
+?
+```
+
+#### Function to check if court has made an incorrect decision on one petition (that is, one trial of the random experiment)
+
+```{r}
+?
+```
+
+#### Calculate the fraction of times the event of interest (court making an incorrect decision) has occured in the simulated data which is what we define as the approximate probability of the event happening in the next trial of the random experiment
+
+```{r}
+?
+```
